@@ -1,5 +1,9 @@
 #include<bits/stdc++.h>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
+
+
 vector<vector<pair<int,double>>> adj(vector<vector<double>>edges,int n){
     vector<vector<pair<int,double>>> adjlist(n);
     for(int i=0;i<edges.size();i++){
@@ -71,7 +75,7 @@ double astar(vector<vector<pair<int,double>>> adjlist,int start,int goal,unorder
             }
         }
     }
-    return -1.0;
+    return -1.0; // destination unreachable
 }
 int main(){
 
@@ -386,8 +390,19 @@ int main(){
     }
     int s=station_num[start];
     int g=station_num[goal];
+    using namespace std::chrono;
+    auto s11 = high_resolution_clock::now();
     cout<<"by dijkstra: "<<dijkstra(adjlist,s,g)<<endl;
+    auto e11 = high_resolution_clock::now();
+
+    auto duration = duration_cast<microseconds>(e11 - s11);
+    cout << duration.count() << endl;
+    
+    auto s22 = high_resolution_clock::now();
     cout<<" by astar : "<<astar(adjlist,s,g,station_pos)<<endl;
+    auto e22 = high_resolution_clock::now();
+    auto duration1 = duration_cast<microseconds>(e22 - s22);
+    cout << duration1.count() << endl;
 
     return 0;
 }
